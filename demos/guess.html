@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Guess Type Tern Demo</title>
+    
+    <!-- CodeMirror -->
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+    <script src="codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="codemirror/theme/eclipse.css">
+    <script src="codemirror/addon/hint/show-hint.js"></script>
+    <script src="codemirror/addon/edit/closetag.js"></script>
+    <script src="codemirror/addon/edit/closebrackets.js"></script>    
+    <script src="codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="codemirror/addon/selection/active-line.js"></script>
+    <script src="codemirror/addon/runmode/runmode.js"></script>
+        
+    <script src="codemirror/mode/javascript/javascript.js"></script>    
+
+<script>
+var defs = [];
+CodeMirror.tern = {};
+CodeMirror.tern.addDef = function(def) {
+	defs.push(def);
+}
+</script>
+    <script src="codemirror-javascript/addon/hint/tern/defs/ecma5.json.js"></script>    
+    <script src="codemirror-javascript/addon/hint/tern/defs/browser.json.js"></script>
+  <!-- Tern JS -->
+  <script src="ternjs/acorn/acorn.js"></script>
+  <script src="ternjs/acorn/acorn_loose.js"></script>
+  <script src="ternjs/acorn/util/walk.js"></script>
+  <script src="ternjs/tern/lib/signal.js"></script>
+  <script src="ternjs/tern/lib/tern.js"></script>
+  <script src="ternjs/tern/lib/def.js"></script>
+  <script src="ternjs/tern/lib/comment.js"></script>
+  <script src="ternjs/tern/lib/infer.js"></script>
+  
+  <script src="../guess-types.js"></script>
+  
+  <!-- Official CodeMirror Tern addon -->
+  <script src="codemirror/addon/tern/tern.js"></script>   
+
+  <!-- Extension of CodeMirror Tern addon -->
+  <link rel="stylesheet" href="codemirror-javascript/addon/hint/tern/tern-extension.css">
+  <script src="codemirror-javascript/addon/hint/tern/tern-extension.js"></script>    
+  <script src="codemirror-javascript/addon/hint/tern/defs/ecma5.json.js"></script>
+  <script src="codemirror-javascript/addon/hint/tern/defs/browser.json.js"></script>
+
+  <!-- CodeMirror Extension -->  
+  
+  <link rel="stylesheet" href="codemirror-extension/addon/hint/show-hint-eclipse.css">
+  <script src="codemirror-extension/addon/hint/show-context-info.js"></script>
+  <link rel="stylesheet" href="codemirror-extension/addon/hint/show-context-info.css">
+  
+  <link rel="stylesheet" href="codemirror-extension/addon/hint/templates-hint.css">
+  <script src="codemirror-extension/addon/hint/templates-hint.js"></script>
+  
+  <!-- CodeMirror Javascript -->
+  <script src="codemirror-javascript/addon/hint/javascript/javascript-templates.js"></script>
+
+  <!-- Tern Hover -->
+  <link rel="stylesheet" href="codemirror-extension/addon/hover/text-hover.css">
+  <script src="codemirror-extension/addon/hover/text-hover.js"></script>
+  <script src="codemirror-javascript/addon/hint/tern/tern-hover.js"></script>
+    		          
+    <link rel="stylesheet" href="codemirror/doc/docs.css">
+  </head>
+  <body>
+    
+    <h1>Demo with Guess Type Tern plugin </h1>
+	<p>See <a href="https://github.com/angelozerr/tern-guess-types">https://github.com/angelozerr/tern-guess-types</a> for more infos.</p>
+	<input type="button" onclick="guess()" value="Guess"/> 
+    <form><textarea id="code" name="code">document. //addEventListener(type, listener, capture)
+var s = "", y = "", z = 10;
+var f = function(e) {
+
+}    
+var g = function() {
+
+}
+var b = true;
+</textarea></form>
+    <script type="text/javascript">
+       
+	function guess() {
+	  var files = [];
+	  files.push({type: "full",
+	              name: "[doc]",
+	              text: editor.getValue()});
+	  
+	  var query = {
+	    type : "guess-types",
+	    file : "#0",
+	    end: {ch: 10, line: 0},
+	    property: "addEventListener",
+	    lineCharPositions : true
+	  };
+
+	  var doc = {query: query, files: files};
+	  	server.server.request(doc, function(error, response) {
+	  		alert(JSON.stringify(response));
+	    });    		
+	  }
+    
+      function passAndHint(cm) {
+     	setTimeout(function() {cm.execCommand("autocomplete");}, 100);
+      	return CodeMirror.Pass;
+      }
+       
+      
+      
+      function myHint(cm) {
+      	return CodeMirror.showHint(cm, CodeMirror.ternHint, {async: true}); 
+      }
+     
+      CodeMirror.commands.autocomplete = function(cm) {
+        CodeMirror.showHint(cm, myHint);
+      }
+        
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+   	  lineNumbers: true,
+   	  mode: "javascript"
+   	});
+
+	var server = new CodeMirror.TernServer({defs: defs, plugins:{"guess-types": {}}});
+    editor.setOption("extraKeys", {
+      "Ctrl-Space": function(cm) { server.complete(cm); },
+      "Ctrl-I": function(cm) { server.showType(cm); },
+      "Alt-.": function(cm) { server.jumpToDef(cm); },
+      "Alt-,": function(cm) { server.jumpBack(cm); },
+      "Ctrl-Q": function(cm) { server.rename(cm); },
+    })
+    editor.on("cursorActivity", function(cm) { server.updateArgHints(cm); });
+    </script>
+    
+  </body>
+</html>
