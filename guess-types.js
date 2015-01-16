@@ -17,8 +17,8 @@
       if (query.end == null) throw ternError("missing .query.end field");
       if (query.property == null) throw ternError("missing .query.property field");
       var wordStart = tern.resolvePos(file, query.end), text = file.text, quessTypes = {};
-      while (wordStart && acorn.isIdentifierChar(text.charCodeAt(wordStart - 1))) --wordStart;
-      --wordStart;
+      while (wordStart && text.charCodeAt(wordStart - 1) != 46) --wordStart;
+      //--wordStart;
       
       function gather(prop, obj, depth, addInfo) {
     	  var val = obj.props[prop];
@@ -29,7 +29,7 @@
       }
       
       var exprAt = infer.findExpressionAround(file.ast, null, wordStart, file.scope);
-      if (exprAt) {
+      if (exprAt && exprAt.node.object) {
     	exprAt.node = exprAt.node.object;
         var objType = infer.expressionType(exprAt);
         if (objType && objType.getType) {
