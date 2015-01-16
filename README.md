@@ -41,3 +41,24 @@ JSON request :
 
 JSON response : 
 
+```json
+"{
+ "args": [
+  "string",
+  "fn(e: Event)",
+  "bool"
+ ],
+ "string": [
+  "name",
+  "s",
+  "y"
+ ],
+ "fn(e: Event)": [],
+ "bool": [
+  "true",
+  "false",
+  "closed",
+  "b"
+ ]
+}"
+```
