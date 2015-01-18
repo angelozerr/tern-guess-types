@@ -1,6 +1,8 @@
 # Tern guess types
 
-Tern plugin which gives the capability to guess parameter types when completion is applied.
+[![Build Status](https://secure.travis-ci.org/angelozerr/tern-guess-types.png)](http://travis-ci.org/angelozerr/tern-guess-types)
+
+[tern-guess-types](https://github.com/angelozerr/tern-guess-types) is a plugin which  gives the capability to guess parameter types when completion is applied to the JavaSript code intelligence system [Tern](http://ternjs.net/).
 
 For instance if you open tern completion for document and select addEventListener : 
 
