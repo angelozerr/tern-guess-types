@@ -6,7 +6,13 @@
   mod(tern, tern, acorn);
 })(function(infer, tern, acorn) {
   "use strict";
-    
+  
+  function ternError(msg) {
+    var err = new Error(msg);
+    err.name = "TernError";
+    return err;
+  }
+  
   tern.registerPlugin("guess-types", function(server, options) {
     return {};
   });  
