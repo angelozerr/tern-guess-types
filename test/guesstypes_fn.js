@@ -1,27 +1,27 @@
 var util = require("./util");
 
-exports['test document.addEventListener '] = function() {
+exports['test Array '] = function() {
     
   util.assertGuessTypes(
-    "var s1 = '', s2 = '', b = true;" +
-	"document.",
-	"addEventListener", 
+    "var s1 = '', s2 = '', n = 5;" +
+	"new ",
+	"Array",
 	{
-	 "args": ["string", "fn(e: Event)", "bool"],
-	 "string": ["name", "s1", "s2"],
-	 "fn(e: Event)": [],
-	 "bool": ["true", "false", "closed", "b"]
+	 "args": ["number"],
+	 "number": ["Infinity","NaN","devicePixelRatio","pageYOffset","pageXOffset","scrollY","scrollX","screenTop",
+	            "screenLeft","screenY","screenX","innerWidth","innerHeight","outerWidth","outerHeight",
+	            "n"]
 	}, [ "ecma5", "browser" ]);
   
   util.assertGuessTypes(
-    "var s1 = '', s2 = '', b = true;" +
-	"document.add",
-	"addEventListener", 
+    "var s1 = '', s2 = '', n = 5;" +
+	"new Arr",
+	"Array", 
 	{
-	 "args": ["string", "fn(e: Event)", "bool"],
-	 "string": ["name", "s1", "s2"],
-	 "fn(e: Event)": [],
-	 "bool": ["true", "false", "closed", "b"]
+	 "args": ["number"],
+	 "number": ["Infinity","NaN","devicePixelRatio","pageYOffset","pageXOffset","scrollY","scrollX","screenTop",
+	            "screenLeft","screenY","screenX","innerWidth","innerHeight","outerWidth","outerHeight",
+	            "n"]
 	}, [ "ecma5", "browser" ]);  
 }
 
