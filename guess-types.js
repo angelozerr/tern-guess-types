@@ -24,7 +24,6 @@
       if (query.property == null) throw ternError("missing .query.property field");
       var wordStart = tern.resolvePos(file, query.end), text = file.text, quessTypes = {};
       while (wordStart && acorn.isIdentifierChar(text.charCodeAt(wordStart - 1))) --wordStart;
-      //--wordStart;
       
       function gather(prop, obj, depth, addInfo) {
     	  var val = obj.props[prop];
