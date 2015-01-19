@@ -38,7 +38,7 @@
       if (exprAt && exprAt.node.object) {
     	exprAt.node = exprAt.node.object;
         var objType = infer.expressionType(exprAt);
-        if (objType && objType.getType) {
+        if (objType && objType.getType && objType.getType()) {
           prop = objType.getType().hasProp(query.property);
         }
       } else {

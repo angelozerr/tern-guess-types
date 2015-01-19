@@ -22,7 +22,17 @@ exports['test document.addEventListener '] = function() {
 	 "string": ["name", "s1", "s2"],
 	 "fn(e: Event)": [],
 	 "bool": ["true", "false", "closed", "b"]
-	}, [ "ecma5", "browser" ]);  
+	}, ["ecma5", "browser" ]);  
 }
 
+exports['test variable not defined '] = function() {
+    
+  // here document variable doesn't exists, because browser JSON Type Definition is not loaded.
+  util.assertGuessTypes(
+    "var s1 = '', s2 = '', b = true;" +
+	"document.",
+	"addEventListener", 
+	{}, ["ecma5"]);
+  
+ }
 if (module == require.main) require('test').run(exports)
