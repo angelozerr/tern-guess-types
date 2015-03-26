@@ -7,9 +7,9 @@
 (function(root, mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     return mod(exports, require("./infer"), require("./signal"),
-               require("acorn/acorn"), require("acorn/util/walk"));
+               require("acorn"), require("acorn/dist/walk"));
   if (typeof define == "function" && define.amd) // AMD
-    return define(["exports", "./infer", "./signal", "acorn/acorn", "acorn/util/walk"], mod);
+    return define(["exports", "./infer", "./signal", "acorn/dist/acorn", "acorn/dist/walk"], mod);
   mod(root.tern || (root.tern = {}), tern, tern.signal, acorn, acorn.walk); // Plain browser env
 })(this, function(exports, infer, signal, acorn, walk) {
   "use strict";
@@ -401,7 +401,7 @@
       var scopeStart = infer.scopeAt(realFile.ast, pos, realFile.scope);
       var scopeEnd = infer.scopeAt(realFile.ast, pos + text.length, realFile.scope);
       var scope = file.scope = scopeDepth(scopeStart) < scopeDepth(scopeEnd) ? scopeEnd : scopeStart;
-      file.ast = infer.parse(file.text, srv.passes, {directSourceFile: file, allowReturnOutsideFunction: true});
+      file.ast = infer.parse(text, srv.passes, {directSourceFile: file, allowReturnOutsideFunction: true});
       infer.analyze(file.ast, file.name, scope, srv.passes);
 
       // This is a kludge to tie together the function types (if any)
@@ -627,7 +627,7 @@
         var type = val.getType();
         rec.guess = infer.didGuess();
         if (query.types)
-          rec.type = infer.toString(type);
+          rec.type = infer.toString(val);
         if (query.docs)
           maybeSet(rec, "doc", val.doc || type && type.doc);
         if (query.urls)
@@ -640,7 +640,7 @@
     }
 
     var hookname, prop, objType, isKey;
-    
+
     var exprAt = infer.findExpressionAround(file.ast, null, wordStart, file.scope);
     var memberExpr, objLit;
     // Decide whether this is an object property, either in a member
@@ -680,7 +680,7 @@
       while (pathStart && (text.charAt(pathStart - 1) == "." || acorn.isIdentifierChar(text.charCodeAt(pathStart - 1)))) pathStart--;
       var path = text.slice(pathStart, wordStart - 1);
       if (path) {
-        objType = infer.def.parsePath(path, file.scope).getType();
+        objType = infer.def.parsePath(path, file.scope).getObjType();
         prop = word;
       }
     }
@@ -705,10 +705,6 @@
     if (srv.passes[hookname])
       srv.passes[hookname].forEach(function(hook) {hook(file, wordStart, wordEnd, gather);});
 
-    if (word.slice(0, "function".length) == "function") {
-      // completion for anonymous function
-    }
-    
     if (query.sort !== false) completions.sort(compareCompletions);
     srv.cx.completingProperty = null;
 
@@ -806,7 +802,7 @@
       throw ternError(".query.depth must be a number");
 
     var result = {guess: infer.didGuess(),
-                  type: infer.toString(type, query.depth),
+                  type: infer.toString(exprType, query.depth),
                   name: type && type.name,
                   exprName: exprName};
     if (type) storeTypeDocs(type, result);
@@ -818,7 +814,7 @@
   function findDocs(srv, query, file) {
     var expr = findExpr(file, query);
     var type = findExprType(srv, query, file, expr);
-    var result = {url: type.url, doc: type.doc, type: infer.toString(type.getType())};
+    var result = {url: type.url, doc: type.doc, type: infer.toString(type)};
     var inner = type.getType();
     if (inner) storeTypeDocs(inner, result);
     return clean(result);
@@ -933,7 +929,7 @@
   }
 
   function findRefsToProperty(srv, query, expr, prop) {
-    var objType = infer.expressionType(expr).getType();
+    var objType = infer.expressionType(expr).getObjType();
     if (!objType) throw ternError("Couldn't determine type of base object.");
 
     var refs = [];
@@ -994,5 +990,5 @@
     return {files: srv.files.map(function(f){return f.name;})};
   }
 
-  exports.version = "0.8.1";
+  exports.version = "0.10.1";
 });
