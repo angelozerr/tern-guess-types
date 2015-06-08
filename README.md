@@ -13,6 +13,7 @@ When you apply completion, tern guess types gives the capability to retrieve var
 
 ![Tern completion](https://github.com/angelozerr/tern-guess-types/wiki/images/TernGuessTypes.png)
 
+See [Features](https://github.com/angelozerr/tern-guess-types/wiki/Features) for more informations.
 
 # How it works?
 

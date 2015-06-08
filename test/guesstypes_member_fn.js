@@ -8,7 +8,7 @@ exports['test document.addEventListener '] = function() {
 	"addEventListener", 
 	{
 	 "args": ["string", "fn(e: Event)", "bool"],
-	 "string": ["name", "s1", "s2"],
+	 "string": ["\"\"", "''", "name", "s1", "s2"],
 	 "fn(e: Event)": [],
 	 "bool": ["true", "false", "closed", "b"]
 	}, [ "ecma5", "browser" ]);
@@ -19,7 +19,7 @@ exports['test document.addEventListener '] = function() {
 	"addEventListener", 
 	{
 	 "args": ["string", "fn(e: Event)", "bool"],
-	 "string": ["name", "s1", "s2"],
+	 "string": ["\"\"", "''", "name", "s1", "s2"],
 	 "fn(e: Event)": [],
 	 "bool": ["true", "false", "closed", "b"]
 	}, ["ecma5", "browser" ]);  
