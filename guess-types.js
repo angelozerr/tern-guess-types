@@ -99,10 +99,10 @@
             setArgType(type);
             quessTypes[type] = guessType.completions;            
           } else {
-            setArgType(arg);
-            infer.forAllLocalsAt(file.ast, wordStart, file.scope, gather);
+            setArgType(arg);            
           }
         }
+      	infer.forAllLocalsAt(file.ast, wordStart, file.scope, gather);
       }
         
       return quessTypes;
