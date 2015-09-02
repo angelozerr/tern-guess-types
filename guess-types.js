@@ -93,14 +93,16 @@
     	quessTypes.args = [];
       	var fnType = prop.getFunctionType(), args = fnType.args;
       	for (var i = 0; i < args.length; i++) {
-          var arg = args[i];
-          if (fnType.guessType && fnType.guessType(arg, i, file, setArgType, addValueType)) {
-            continue;
+          var arg = args[i], guessType = fnType.guessType && fnType.guessType(arg, i, file);
+          if (guessType) {
+            var type = guessType.type;
+            setArgType(type);
+            quessTypes[type] = guessType.completions;            
           } else {
             setArgType(arg);
+            infer.forAllLocalsAt(file.ast, wordStart, file.scope, gather);
           }
         }
-      	infer.forAllLocalsAt(file.ast, wordStart, file.scope, gather);
       }
         
       return quessTypes;
