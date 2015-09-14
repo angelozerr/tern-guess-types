@@ -90,6 +90,7 @@
       }
       
       if (prop && prop.getFunctionType) {
+        var findLocal = false;
     	quessTypes.args = [];
       	var fnType = prop.getFunctionType(), args = fnType.args;
       	for (var i = 0; i < args.length; i++) {
@@ -99,10 +100,11 @@
             setArgType(type);
             quessTypes[type] = guessType.completions;            
           } else {
-            setArgType(arg);            
+            setArgType(arg);
+            findLocal = true;
           }
         }
-      	infer.forAllLocalsAt(file.ast, wordStart, file.scope, gather);
+      	if (findLocal) infer.forAllLocalsAt(file.ast, wordStart, file.scope, gather);
       }
         
       return quessTypes;
