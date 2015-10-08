@@ -7,7 +7,7 @@ exports['test String#replace '] = function() {
 	"var s3 = s1.",
 	"replace",
 	{
-	 "args": ["string|RegExp","string"],
+	 "!args": ["string|RegExp","string"],
 	 "string": ["\"\"", "''", "s1","s2"],
 	 "RegExp": ["r1"]
 	}, [ "ecma5"]);  

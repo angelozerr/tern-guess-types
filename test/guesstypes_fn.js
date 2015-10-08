@@ -7,7 +7,7 @@ exports['test Array '] = function() {
 	"new ",
 	"Array",
 	{
-	 "args": ["number"],
+	 "!args": ["number"],
 	 "number": ["Infinity","NaN","devicePixelRatio","pageYOffset","pageXOffset","scrollY","scrollX","screenTop",
 	            "screenLeft","screenY","screenX","innerWidth","innerHeight","outerWidth","outerHeight",
 	            "n"]
@@ -18,7 +18,7 @@ exports['test Array '] = function() {
 	"new Arr",
 	"Array", 
 	{
-	 "args": ["number"],
+	 "!args": ["number"],
 	 "number": ["Infinity","NaN","devicePixelRatio","pageYOffset","pageXOffset","scrollY","scrollX","screenTop",
 	            "screenLeft","screenY","screenX","innerWidth","innerHeight","outerWidth","outerHeight",
 	            "n"]

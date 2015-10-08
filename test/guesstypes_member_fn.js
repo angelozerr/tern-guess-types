@@ -7,7 +7,7 @@ exports['test document.addEventListener '] = function() {
 	"document.",
 	"addEventListener", 
 	{
-	 "args": ["string", "fn(e: Event)", "bool"],
+	 "!args": ["string", "fn(e: Event)", "bool"],
 	 "string": ["\"\"", "''", "name", "s1", "s2"],
 	 "fn(e: Event)": [],
 	 "bool": ["true", "false", "closed", "b"]
@@ -18,7 +18,7 @@ exports['test document.addEventListener '] = function() {
 	"document.add",
 	"addEventListener", 
 	{
-	 "args": ["string", "fn(e: Event)", "bool"],
+	 "!args": ["string", "fn(e: Event)", "bool"],
 	 "string": ["\"\"", "''", "name", "s1", "s2"],
 	 "fn(e: Event)": [],
 	 "bool": ["true", "false", "closed", "b"]
