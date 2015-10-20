@@ -13,7 +13,8 @@
     "url": "git://github.com/angelozerr/tern-guess-types.git"
   },
   "scripts": {
-    "test": "node ./test/all.js"
+    "test": "node ./test/all.js",
+    "publish": "node ./scripts/git-tag.js"
   },
   "dependencies": {
     "tern": "^0.15.0",
